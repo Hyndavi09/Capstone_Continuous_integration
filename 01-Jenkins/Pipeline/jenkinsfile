@@ -7,6 +7,10 @@ node
  def project_path="01-Jenkins/Code/petclinic"
  
  dir(project_path) {
+ stage('Sonar Analysis'){
+        withSonarQubeEnv('SonarQube'){
+         sh 'mvn sonar:sonar'
+        }
     
   stage('Maven-Clean') {
    sh label: '', script: 'mvn clean'
@@ -24,13 +28,17 @@ node
    sh label: '', script: 'mvn package'
   }
   
-   stage('Archive-Artifacts') {
-   archiveArtifacts 'target/*.war'
-  }
-   stage('Sonar Analysis'){
-        withSonarQubeEnv('SonarQube'){
-         sh 'mvn sonar:sonar'
+  stage('Jfrog Artifacory Upload') {
+        def server= Artifactory.server 'Artifactory'
+                    def uploadSpec= """{
+                        "files": [{
+                        "pattern": "/root/.jenkins/workspace/PipeLine/01-Jenkins/Code/petclinic/target/*.war",
+                        "target": "petclinic"}]
+                    }"""
+        server.upload(uploadSpec)
+        
         }
+   
         }
   stage('Input for deploy in test server') {  
    input('Do you want to deploy in test server proceed?')      
