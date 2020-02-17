@@ -33,6 +33,8 @@ node
         }
         }
   
-  
+  stage('Downstream Build -- Docker Deployment'){
+	 build 'TestServer'
+	}
   }
 }
