@@ -45,7 +45,7 @@ node
         }
 }
   stage('Downstream Build -- Docker Deployment'){
-	 build 'TestServer'
+	 build 'Capstone_TestServer'
 	}
   }
 
