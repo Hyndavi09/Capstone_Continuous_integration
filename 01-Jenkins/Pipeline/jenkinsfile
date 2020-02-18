@@ -1,7 +1,7 @@
 node
 {
   stage('Git-Checkout') {
-   git 'https://github.com/Hyndavi09/Continuous_integration.git'
+   git 'https://github.com/Hyndavi09/Capstone_Continuous_integration.git'
   }
     
  def project_path="01-Jenkins/Code/petclinic"
