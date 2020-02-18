@@ -7,10 +7,7 @@ node
  def project_path="01-Jenkins/Code/petclinic"
  
  dir(project_path) {
- stage('Sonar Analysis'){
-        withSonarQubeEnv('SonarQube'){
-         sh 'mvn sonar:sonar'
-        }
+ 
     
   stage('Maven-Clean') {
    sh label: '', script: 'mvn clean'
@@ -27,7 +24,10 @@ node
    stage('Maven-Package') {
    sh label: '', script: 'mvn package'
   }
-  
+  stage('Sonar Analysis'){
+        withSonarQubeEnv('SonarQube'){
+         sh 'mvn sonar:sonar'
+        }
   stage('Jfrog Artifacory Upload') {
         def server= Artifactory.server 'artifact'
                     def uploadSpec= """{
